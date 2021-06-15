@@ -14,7 +14,11 @@ def pypiUpload(args = [:]){
                     usernameVariable: 'TWINE_USERNAME'
                 )
             ]){
-                sh(label: 'Uploading to pypi', script: 'twine upload --disable-progress-bar --non-interactive $DEST')
+                if(isUnix()){
+                    sh(label: 'Uploading to pypi', script: 'twine upload --non-interactive $DEST')
+                } else {
+                    bat(label: 'Uploading to pypi', script: 'twine upload --non-interactive %DEST%')
+                }
             }
     }
 }
