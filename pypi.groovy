@@ -15,9 +15,9 @@ def pypiUpload(args = [:]){
                 )
             ]){
                 if(isUnix()){
-                    sh(label: 'Uploading to pypi', script: 'twine upload --non-interactive $DEST')
+                    sh(label: 'Uploading to pypi', script: 'twine upload --disable-progress-bar --non-interactive $DEST')
                 } else {
-                    bat(label: 'Uploading to pypi', script: 'twine upload --non-interactive %DEST%')
+                    bat(label: 'Uploading to pypi', script: 'twine upload --disable-progress-bar --non-interactive %DEST%')
                 }
             }
     }
