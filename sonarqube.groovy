@@ -27,7 +27,6 @@ def sonarcloudSubmit(args = [:]){
 
             }
         }
-        echo "command = ${command}"
         sh command
     }
     timeout(time: 1, unit: 'HOURS') {
