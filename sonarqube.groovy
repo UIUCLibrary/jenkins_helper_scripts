@@ -11,19 +11,21 @@ def get_sonarqube_unresolved_issues(report_task_file){
 
 
 def sonarcloudSubmit(args = [:]){
-    def outputJson = args.outputJson ? args.outputJson: "reports/sonar-report.json"
+    def outputJson = args.outputJson ? args.outputJson: 'reports/sonar-report.json'
     def projectVersion = args.projectVersion
     def sonarCredentialsId = args.credentialsId
-
+    def command
 
     withSonarQubeEnv(installationName:'sonarcloud', credentialsId: sonarCredentialsId) {
-        echo "args = ${args}"
-        def command
-        if (env.CHANGE_ID){
-            command = "sonar-scanner -Dsonar.projectVersion=${projectVersion} -Dsonar.buildString=\"${env.BUILD_TAG}\" -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.base=${env.CHANGE_TARGET}"
+        if(args.sonarCommand){
+            command = args.sonarCommand
         } else {
-            command = "sonar-scanner -Dsonar.projectVersion=${projectVersion} -Dsonar.buildString=\"${env.BUILD_TAG}\" -Dsonar.branch.name=${env.BRANCH_NAME}"
+            if (env.CHANGE_ID){
+                command = "sonar-scanner -Dsonar.projectVersion=${projectVersion} -Dsonar.buildString=\"${env.BUILD_TAG}\" -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.base=${env.CHANGE_TARGET}"
+            } else {
+                command = "sonar-scanner -Dsonar.projectVersion=${projectVersion} -Dsonar.buildString=\"${env.BUILD_TAG}\" -Dsonar.branch.name=${env.BRANCH_NAME}"
 
+            }
         }
         echo "command = ${command}"
         sh command
