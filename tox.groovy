@@ -130,7 +130,7 @@ def getToxTestsParallel(args = [:]){
     script{
         def envs
         def originalNodeLabel
-        def dockerImageName = "${currentBuild.fullProjectName}:tox".replaceAll("-", "").replaceAll('/', "").replaceAll(' ', "").toLowerCase()
+        def dockerImageName = "${currentBuild.fullProjectName}:tox".replaceAll("-", "").replaceAll('/', "_").replaceAll(' ', "").toLowerCase()
         retry(retries){
             node(label){
                 originalNodeLabel = env.NODE_NAME
