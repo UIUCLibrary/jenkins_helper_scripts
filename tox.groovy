@@ -127,6 +127,7 @@ def getToxTestsParallel(args = [:]){
     def dockerArgs = args['dockerArgs']
     def preRunClosure = args['beforeRunning']
     def retries = args.containsKey('retry') ? args.retry : 1
+    def dockerRunArgs = args.get('dockerRunArgs', '')
     script{
         def envs
         def originalNodeLabel
@@ -166,7 +167,7 @@ def getToxTestsParallel(args = [:]){
                             checkout scm
                             def dockerImageForTesting = docker.build(dockerImageName, "-f ${dockerfile} ${dockerArgs} . ")
                             try{
-                                dockerImageForTesting.inside{
+                                dockerImageForTesting.inside(dockerRunArgs){
                                     if(preRunClosure != null){
                                         preRunClosure()
                                     }
