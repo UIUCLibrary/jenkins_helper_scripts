@@ -226,4 +226,6 @@ def getToxTestsParallel(args = [:]){
         return jobs
     }
 }
-return this
+return [
+        getToxTestsParallel: this.&getToxTestsParallel
+]
