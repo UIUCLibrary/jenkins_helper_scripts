@@ -183,13 +183,13 @@ def getToxTestsParallel(args = [:]){
                                             script: "tox -v --workdir=%TEMP%\\tox -e ${tox_env}"
                                         )
                                     }
-                                    cleanWs(
-                                        deleteDirs: true,
-                                        patterns: [
-                                            [pattern: ".tox/", type: 'INCLUDE'],
-                                        ]
-                                    )
                                 }
+                                cleanWs(
+                                    deleteDirs: true,
+                                    patterns: [
+                                        [pattern: ".tox/", type: 'INCLUDE'],
+                                    ]
+                                )
                             } finally {
                                 if(isUnix()){
                                     def runningContainers = sh(
