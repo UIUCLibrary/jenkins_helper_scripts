@@ -128,6 +128,7 @@ def getToxTestsParallel(args = [:]){
     def preRunClosure = args['beforeRunning']
     def retries = args.containsKey('retry') ? args.retry : 1
     def dockerRunArgs = args.get('dockerRunArgs', '')
+    echo "dockerRunArgs = ${dockerRunArgs}"
     script{
         def envs
         def originalNodeLabel
