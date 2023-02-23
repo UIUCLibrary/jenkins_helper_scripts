@@ -169,9 +169,11 @@ def getToxTestsParallel(args = [:]){
                             def dockerImageForTesting = docker.build(dockerImageName, "-f ${dockerfile} ${dockerArgs} . ")
                             try{
                                 dockerImageForTesting.inside(dockerRunArgs){
+                                    echo 'debug 1'
                                     if(preRunClosure != null){
                                         preRunClosure()
                                     }
+                                    echo 'debug 2'
                                     if(isUnix()){
                                         sh(
                                             label: "Running Tox with ${tox_env} environment",
@@ -183,13 +185,14 @@ def getToxTestsParallel(args = [:]){
                                             script: "tox -v --workdir=%TEMP%\\tox -e ${tox_env}"
                                         )
                                     }
+                                    echo 'debug 3'
+                                    cleanWs(
+                                        deleteDirs: true,
+                                        patterns: [
+                                            [pattern: ".tox/", type: 'INCLUDE'],
+                                        ]
+                                    )
                                 }
-                                cleanWs(
-                                    deleteDirs: true,
-                                    patterns: [
-                                        [pattern: ".tox/", type: 'INCLUDE'],
-                                    ]
-                                )
                             } finally {
                                 if(isUnix()){
                                     def runningContainers = sh(
