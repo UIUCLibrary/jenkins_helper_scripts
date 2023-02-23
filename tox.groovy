@@ -203,7 +203,7 @@ def getToxTestsParallel(args = [:]){
                                             returnStatus: true
                                         )
                                     }
-                                    sh(script: "docker ps --no-trunc --filter ancestor=${dockerImageName} --format {{.Names}}", returnStatus: true)
+                                    def dockerPS = sh(script: "docker ps --no-trunc --filter ancestor=${dockerImageName} --format {{.Names}}", returnStatus: true)
                                 } else {
                                     def runningContainers = powershell(
                                                     returnStdout: true,
@@ -216,7 +216,7 @@ def getToxTestsParallel(args = [:]){
                                             returnStatus: true
                                         )
                                     }
-                                    powershell(script: "docker ps --no-trunc --filter \"ancestor=${dockerImageName}\" --format \"{{.Names}}\"", returnStatus: true)
+                                    def dockerPS = powershell(script: "docker ps --no-trunc --filter \"ancestor=${dockerImageName}\" --format \"{{.Names}}\"", returnStatus: true)
                                 }
                             }
                         }
