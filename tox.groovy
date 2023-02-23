@@ -138,7 +138,7 @@ def getToxTestsParallel(args = [:]){
                 originalNodeLabel = env.NODE_NAME
                 checkout scm
                 def dockerImage = docker.build(dockerImageName, "-f ${dockerfile} ${dockerArgs} .")
-                dockerImage.inside{
+                dockerImage.inside(getToxEnvs){
                     envs = getToxEnvs()
                 }
                 if(isUnix()){
